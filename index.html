@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+    
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- CSS for boot strap and google fonts -->
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="homepagecss.css">
+    <link href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" rel="stylesheet">
+
+
+    <!-- This is where the firebase and font awesome JS files are listed-->
+
+    <script src="https://kit.fontawesome.com/f90f3d9228.js" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js">
+    </script>
+
+</head>
+
+<body onload="create_calendar()">
+    <!-- Curdate is the function that adds date to calendar-->
+    
+    <header id="nav-adj"> <!-- nav bar-->
+        
+        <p id = "ays">AYS</p><!-- WORK IN PROGRESS: LOGO-->
+        
+        <nav>
+            <ul class="nav__links"> <!--navbar links-->
+                
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Around Me</a></li>
+                <li><a href="#">Finances</a></li>
+            </ul>
+        </nav>
+        <!--bootstrap search bar, edited slightly by me-->
+        <form id="search-bar" class="form-inline ml-auto">
+            <input class="form-control mr-sm-2" type="search" placeholder="Coming Soon" aria-label="Search">
+            <button class="btn btn-outline-warning " type="submit">Search</button>
+        </form>
+        <!--pfset refers to the "username" button-->
+        <a id="pfset" alt-text="Profile and Settings" href="#">Username</a>
+    </header>
+
+
+
+    <main>
+        <!--this <ul> tag is where firebase will load the categories list--> 
+        <ul id="categories" class="cat rwcfix">
+            
+            <!--this first <li> will show regardless of the presence of data.
+                It acts as an introduction to this category section-->
+            <li id="firstcategory">
+                <a href="#full-categories">
+
+                    <img>
+                    <p class="heading1">Categories</p>
+                    <p class="heading2">Here you will see what is popular with people around you!</p>
+                </a>
+            </li>
+
+        </ul>
+        
+         <!--this <ul> tag is where firebase will load the worker list-->
+        <ul id="people" class=" ppl rwcfix">
+            
+             <!--this first <li> will show regardless of the presence of data.
+                It acts as an introduction to this people section-->
+            <li id="firstperson">
+                <a href="#more_people">
+                    <img>
+                    <p class="heading1">People</p>
+                    <p class="heading2">Here you will find hard-working professionals from your selected category around you that can do work for you! Click on them to see more details.
+                        <br><i style="margin-top: 0.2em; padding: 0; font-size: 26px;" class="fas fa-arrow-right"></i>
+                    </p>
+                </a>
+            </li>
+
+        </ul>
+        
+        <!--WORK IN PROGRESS. JUST AN IMAGE FOR NOW. WILL ADD MESSAGING SOON-->
+        <section class="messages"><img style="width: 100%" src="messages.png">
+        </section>
+
+        <!--WORK IN PROGRESS. ONLY UPDATES TODAYS DATE SO FAR. WILL BE IMPROVED ON-->
+        <section class="calendar">
+            <div class="month">
+                <ul>
+                    <li class="prev">&#10094;</li>
+                    <li class="next">&#10095;</li>
+                    <li>
+                        <p id="month_name"></p>
+                        <p style="font-size:18px" id="year_name"></p>
+                    </li>
+                </ul>
+            </div>
+
+            <ul class="weekdays">
+                <li>Mo</li>
+                <li>Tu</li>
+                <li>We</li>
+                <li>Th</li>
+                <li>Fr</li>
+                <li>Sa</li>
+                <li>Su</li>
+            </ul>
+
+            <ul class="days">
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+                <li class="days_names"></li>
+
+            
+            </ul>
+        </section>
+    </main>
+
+</body>
+
+
+
+<!--THE SCRIPTS HERE WORK BETTER AFTER THE WHOLE HTML HAS LOADED.
+IT'S A BIT LESS COMPLICATED WHEN THEY ARE PLACED HERE-->
+
+<!--THIS IS THE FIREBASE CODE THAT CONNECTS TO THE SERVER-->
+<script>
+//you must replace 'API-KEY' and 'APP-IPD'
+    var firebaseConfig = {
+        apiKey: 'API-KEY',
+        authDomain: "icstest-89760.firebaseapp.com",
+        databaseURL: "https://icstest-89760.firebaseio.com",
+        projectId: "icstest-89760",
+        storageBucket: "icstest-89760.appspot.com",
+        messagingSenderId: "52903845571",
+        appId: 'APP-ID'
+    };
+
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+</script>
+
+    <!-- This is my script-->
+<script src="homepagejs.js"></script>
+
+
+</html>
